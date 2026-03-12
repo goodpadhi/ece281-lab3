@@ -36,18 +36,18 @@
 --|					can be changed by the inputs
 --|					
 --|
---|                 xxx State Encoding key
+--|                 One-Hot State Encoding key
 --|                 --------------------
 --|                  State | Encoding
 --|                 --------------------
---|                  OFF   | 
---|                  ON    | 
---|                  R1    | 
---|                  R2    | 
---|                  R3    | 
---|                  L1    | 
---|                  L2    | 
---|                  L3    | 
+--|                  OFF   | 10000000
+--|                  ON    | 01000000
+--|                  R1    | 00100000
+--|                  R2    | 00010000
+--|                  R3    | 00001000
+--|                  L1    | 00000100
+--|                  L2    | 00000010
+--|                  L3    | 00000001
 --|                 --------------------
 --|
 --|
@@ -86,23 +86,66 @@ library ieee;
   use ieee.numeric_std.all;
  
 entity thunderbird_fsm is 
---  port(
-	
---  );
+  port (
+        i_clk, i_reset  : in    std_logic;
+        i_left, i_right : in    std_logic;
+        o_lights_L      : out   std_logic_vector(2 downto 0);
+        o_lights_R      : out   std_logic_vector(2 downto 0)
+    );
 end thunderbird_fsm;
 
 architecture thunderbird_fsm_arch of thunderbird_fsm is 
 
 -- CONSTANTS ------------------------------------------------------------------
-  
-begin
-
+    constant OFF   : std_logic_vector(7 downto 0) := "10000000";
+    constant ONN   : std_logic_vector(7 downto 0) := "01000000";
+    constant R1    : std_logic_vector(7 downto 0) := "00100000";
+    constant R2    : std_logic_vector(7 downto 0) := "00010000";
+    constant R3    : std_logic_vector(7 downto 0) := "00001000";
+    constant L1    : std_logic_vector(7 downto 0) := "00000100";
+    constant L2    : std_logic_vector(7 downto 0) := "00000010";
+    constant L3    : std_logic_vector(7 downto 0) := "00000001";
+    
+    signal l_Q      : std_logic_vector(7 downto 0) := OFF;
+    signal l_Q_next : std_logic_vector(7 downto 0) := OFF;
+    
 	-- CONCURRENT STATEMENTS --------------------------------------------------------	
-	
+
     ---------------------------------------------------------------------------------
+    begin
+-- Next state logic
+    l_Q_next(7) <= (l_Q(7) and (not(i_left)) and (not(i_right))) or l_Q(6) or l_Q(3) or l_Q(0);
+    l_Q_next(6) <= (l_Q(7)) and (i_left) and (i_right);
+    l_Q_next(5) <= (l_Q(7)) and (not(i_left)) and (i_right);
+    l_Q_next(4) <= l_Q(5);
+    l_Q_next(3) <= l_Q(4);
+    l_Q_next(2) <= (l_Q(7)) and (i_left) and (not(i_right));
+    l_Q_next(1) <= l_Q(2);
+    l_Q_next(0) <= l_Q(1);
+    
+-- Output logic
+    o_lights_L(0) <= l_Q(6) or l_Q(0);
+    o_lights_L(1) <= l_Q(6) or l_Q(1) or l_Q(0);
+    o_lights_L(2) <= l_Q(6) or l_Q(1) or l_Q(0) or l_Q(2);
+    
+    o_lights_R(0) <= l_Q(6) or l_Q(5) or l_Q(4) or l_Q(3);
+    o_lights_R(1) <= l_Q(6) or l_Q(4) or l_Q(3);
+    o_lights_R(2) <= l_Q(6) or l_Q(3);
+	
+	
 	
 	-- PROCESSES --------------------------------------------------------------------
     
-	-----------------------------------------------------					   
+	-----------------------------------------------------	
+	register_proc : process (i_clk, i_reset)
+	begin
+		if i_reset = '1' then
+            l_Q <= OFF;        -- reset state is OFF
+        elsif (rising_edge(i_clk)) then
+            l_Q <= l_Q_next;    -- next state becomes current state
+    end if;	--Reset state is OFF
+
+
+	end process register_proc;			   
 				  
 end thunderbird_fsm_arch;
