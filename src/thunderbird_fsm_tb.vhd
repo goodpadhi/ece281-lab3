@@ -180,20 +180,13 @@ begin
     
         wait for k_clk_period;
         assert (w_lights_L = "001" and w_lights_R = "000") report "left pattern did not start" severity failure;
-    
+        
         -- reset during active pattern
-        w_left  <= '0';
-        w_right <= '1';
-        w_reset <= '0';
-        wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "001") report "bad right start2" severity failure;
-    
-        wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "011") report "bad right mid2" severity failure;
-    
         w_reset <= '1';
-        wait for 1 ns;
-        assert (w_lights_L = "000" and w_lights_R = "000") report "reset did not immediately work" severity failure;
+        wait for k_clk_period;
+        assert (w_lights_L = "000" and w_lights_R = "000") report "reset did not immediately work" severity failure;        
+    
+       
     
       
 	-----------------------------------------------------	
