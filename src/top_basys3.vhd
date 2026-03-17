@@ -97,7 +97,7 @@ architecture top_basys3_arch of top_basys3 is
 	
 	component clock_divider is
 		generic(
-			k_DIV : natural := 200000000
+			k_DIV : natural := 20000000
 		);
 		port(
 			i_clk   : in  std_logic;
@@ -115,7 +115,7 @@ begin
 	-- PORT MAPS ----------------------------------------
 	clk_div_inst : clock_divider
 		generic map(
-			k_DIV => 200000000
+			k_DIV => 20000000
 		)
 		port map(
 			i_clk   => clk,
@@ -139,13 +139,13 @@ begin
 	
 	-- ground unused LEDs
 	-- leave unused switches UNCONNECTED
-	led(13) <= w_lights_L(2);   -- LA
+	led(13) <= w_lights_L(0);   -- LA
 	led(14) <= w_lights_L(1);   -- LB
-	led(15) <= w_lights_L(0);   -- LC
+	led(15) <= w_lights_L(2);   -- LC
 	
-	led(2) <= w_lights_L(2);   -- RA
-	led(1) <= w_lights_L(1);   -- RB
-	led(0) <= w_lights_L(0);   -- RC
+	led(2) <= w_lights_R(0);   -- RA
+	led(1) <= w_lights_R(1);   -- RB
+	led(0) <= w_lights_R(2);   -- RC
 	
 	
 	-- Ignore the warnings associated with these signals
