@@ -124,10 +124,10 @@ architecture thunderbird_fsm_arch of thunderbird_fsm is
     l_Q_next(0) <= l_Q(1);
     
 -- Output logic
-    o_lights_L(0) <= l_Q(6) or l_Q(0);
+    o_lights_L(0) <= l_Q(6) or l_Q(2) or l_Q(1) or l_Q(0);
     o_lights_L(1) <= l_Q(6) or l_Q(1) or l_Q(0);
-    o_lights_L(2) <= l_Q(6) or l_Q(1) or l_Q(0) or l_Q(2);
-    
+    o_lights_L(2) <= l_Q(6) or l_Q(0);
+
     o_lights_R(0) <= l_Q(6) or l_Q(5) or l_Q(4) or l_Q(3);
     o_lights_R(1) <= l_Q(6) or l_Q(4) or l_Q(3);
     o_lights_R(2) <= l_Q(6) or l_Q(3);
