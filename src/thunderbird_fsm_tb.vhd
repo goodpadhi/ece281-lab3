@@ -123,10 +123,10 @@ begin
         w_right <= '0';
         w_reset <= '0';
         wait for k_clk_period;
-        assert (w_lights_L = "100" and w_lights_R = "000") report "bad left start" severity failure;
+        assert (w_lights_L = "001" and w_lights_R = "000") report "bad left start" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "110" and w_lights_R = "000") report "bad left mid" severity failure;
+        assert (w_lights_L = "011" and w_lights_R = "000") report "bad left mid" severity failure;
     
         wait for k_clk_period;
         assert (w_lights_L = "111" and w_lights_R = "000") report "bad left full" severity failure;
@@ -179,7 +179,7 @@ begin
         assert (w_lights_L = "000" and w_lights_R = "000") report "should go off before left starts" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "100" and w_lights_R = "000") report "left pattern did not start" severity failure;
+        assert (w_lights_L = "001" and w_lights_R = "000") report "left pattern did not start" severity failure;
     
         -- reset during active pattern
         w_left  <= '0';
