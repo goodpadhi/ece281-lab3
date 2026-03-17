@@ -123,16 +123,16 @@ begin
         w_right <= '0';
         w_reset <= '0';
         wait for k_clk_period;
-        assert (w_lights_L = "001" and w_lights_R = "000") report "bad left start" severity failure;
+        assert (w_lights_L = "001" and w_lights_R = "000") report "bad left start1" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "011" and w_lights_R = "000") report "bad left mid" severity failure;
+        assert (w_lights_L = "011" and w_lights_R = "000") report "bad left mid1" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "111" and w_lights_R = "000") report "bad left full" severity failure;
+        assert (w_lights_L = "111" and w_lights_R = "000") report "bad left full1" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "000") report "left did not return off" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "000") report "left did not return off1" severity failure;
     
         -- right pattern
         w_left  <= '0';
@@ -165,15 +165,15 @@ begin
         w_right <= '1';
         w_reset <= '0';
         wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "001") report "bad right start" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "001") report "bad right start1" severity failure;
     
         wait for k_clk_period;
         w_left  <= '1';
         w_right <= '0';
-        assert (w_lights_L = "000" and w_lights_R = "011") report "bad right mid" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "011") report "bad right mid1" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "111") report "bad right full" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "111") report "bad right full1" severity failure;
     
         wait for k_clk_period;
         assert (w_lights_L = "000" and w_lights_R = "000") report "should go off before left starts" severity failure;
@@ -186,10 +186,10 @@ begin
         w_right <= '1';
         w_reset <= '0';
         wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "001") report "bad right start" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "001") report "bad right start2" severity failure;
     
         wait for k_clk_period;
-        assert (w_lights_L = "000" and w_lights_R = "011") report "bad right mid" severity failure;
+        assert (w_lights_L = "000" and w_lights_R = "011") report "bad right mid2" severity failure;
     
         w_reset <= '1';
         wait for 1 ns;
